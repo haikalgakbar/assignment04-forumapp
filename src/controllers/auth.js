@@ -1,6 +1,7 @@
 const bycrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const Session = require("../models/session");
 
 async function handleRegister(req, res) {
   const { email, password, user_name, display_name } = req.body;
@@ -47,7 +48,7 @@ async function handleLogin(req, res) {
     if (!user)
       return res.status(404).send({ message: "Incorrect email or password." });
 
-    bycrypt.compare(password, user.password, (err, result) => {
+    bycrypt.compare(password, user.password, async (err, result) => {
       if (err) {
         return res.status(500).send({ message: err });
       }
@@ -56,18 +57,30 @@ async function handleLogin(req, res) {
           .status(404)
           .send({ message: "Incorrect email or password." });
       }
-      const payload = {
-        id: user._id,
-        email: user.email,
-        user_name: user.user_name,
-      };
 
-      const token = jwt.sign(payload, process.env.JWT_SECRET);
+      const newSession = new Session({
+        user: user._id,
+      });
+
+      const session = await newSession.save();
 
       res
-        .cookie("token", token)
+        .cookie("session", session._id)
         .status(200)
         .send({ message: "Login success." });
+
+      // const payload = {
+      //   id: user._id,
+      //   email: user.email,
+      //   user_name: user.user_name,
+      // };
+
+      // const token = jwt.sign(payload, process.env.JWT_SECRET);
+
+      // res
+      //   .cookie("token", token)
+      //   .status(200)
+      //   .send({ message: "Login success." });
     });
   } catch (err) {
     res.status(500).send({ message: err });
