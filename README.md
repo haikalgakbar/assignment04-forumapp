@@ -54,7 +54,7 @@
 | `comments` | `[ObjectId(Comments)]?` |
 
 <details open>
-<summary> BSON example </summary>
+<summary> JSON example </summary>
 
 ```JSON
 {
@@ -81,7 +81,7 @@
 | `content` | `String` |
 
 <details open>
-<summary> BSON example </summary>
+<summary> JSON example </summary>
 
 ```JSON
 {
@@ -99,21 +99,19 @@
 ### Auth
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
-| Register | `POST` | `/auth/register` |
-| login | `POST` | `/auth/login` |
+| [Register](#register) | `POST` | `/auth/register` |
+| [login](#login) | `POST` | `/auth/login` |
 
 ### Register
 <details open>
 <summary> Request Body </summary>
 
-```JSON
-{
-  "email": "String" (required),
-  "password": "String" (required),
-  "user_name": "String" (required),
-  "display_name": "String" (required),
-}
-```
+| **Name** | **Value** | |
+| ------------- | ------------- | ------------- |
+| Email | `String` | `required` |
+| Password | `String` | `required` |
+| user_name | `String` | `required` |
+| display_name | `String` | `required` |
 </details>
 
 <details open>
@@ -143,12 +141,10 @@
 <details open>
 <summary> Request Body </summary>
 
-```JSON
-{
-  "email": "String" (required),
-  "password": "String" (required),
-}
-```
+| **Name** | **Value** | |
+| ------------- | ------------- | ------------- |
+| Email | `String` | `required` |
+| Password | `String` | `required` |
 </details>
 
 <details open>
