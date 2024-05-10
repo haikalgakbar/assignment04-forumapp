@@ -1,13 +1,13 @@
 const bycrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/forum.js");
+const User = require("../models/user");
 
 async function handleRegister(req, res) {
   const { email, password, user_name, display_name } = req.body;
   const avatar_url = req.body.avatar_url ?? "";
 
   if (!email || !password || !user_name || !display_name)
-    return res.status(400).send({ message: "Invalid data" });
+    return res.status(400).send({ message: "Invalid body request." });
 
   if (
     typeof email !== "string" ||
@@ -15,19 +15,15 @@ async function handleRegister(req, res) {
     typeof user_name !== "string" ||
     typeof display_name !== "string"
   )
-    return res.status(400).send({ message: "Data must be string." });
+    return res.status(400).send({ message: "Request body must be in string." });
 
-  if (password.length < 6)
-    return res
-      .status(400)
-      .send({ message: "Password must be at least 6 characters." });
-
-  const hashedPassword = await bycrypt.hash(password, 12);
+  if (await User.findOne({ email }))
+    return res.status(409).send({ message: "Email already exists." });
 
   try {
     await new User({
       email,
-      password: hashedPassword,
+      password: await bycrypt.hash(password, 12),
       user_name,
       display_name,
       avatar_url,
@@ -41,6 +37,9 @@ async function handleRegister(req, res) {
 
 async function handleLogin(req, res) {
   const { email, password } = req.body;
+
+  if (!email || !password)
+    return res.status(400).send({ message: "Invalid body request." });
 
   try {
     const user = await User.findOne({ email });
