@@ -10,7 +10,7 @@
 - As a user, I want to be able to UnSave/UnBM Threads
 
 ## Core Entity
-### User
+### Users
 
 | **name**     | **type**      |
 | ------------- | ------------- |
@@ -21,17 +21,17 @@
 | `user_name` | `String` |
 | `display_name` | `String` |
 | `avatar_url` | `String?` |
-| `bookmarks` | `[thread: ObjectId(Thread)]?` |
+| `bookmarks` | `[ObjectId(Threads)]?` |
 
 <details open>
-<summary> BSON example </summary>
+<summary> JSON example </summary>
 
 ```JSON
 {
   "_id": "66372c69cc86e6b1c94167a7",
   "__v": 0,
   "email": "haikal@mail.com",
-  "password": "haikal123",
+  "password": "66372c69cc86e6b1c94167a7",
   "user_name": "haikalgakbar",
   "display_name": "haikalgakbar",
   "avatar_url": "cdn.example.com/img/1.jpg",
@@ -42,16 +42,16 @@
 ```
 </details>
 
-### Thread
+### Threads
 | **name**     | **type**      |
 | ------------- | ------------- |
 | `_id` | `ObjectId` |
 | `__v` | `Number` |
-| `sender` | `ObjectId(User)` |
+| `sender` | `ObjectId(Users)` |
 | `title` | `String` |
 | `content` | `String` |
 | `img` | `String?` |
-| `comments` | `[user: ObjectId(User), comment: String]?` |
+| `comments` | `[ObjectId(Comments)]?` |
 
 <details open>
 <summary> BSON example </summary>
@@ -65,12 +65,31 @@
   "content": "Lorem ipsum sit dolor amet...",
   "img": "cdn.example.com/thread/img/1.jpg",
   "comments": [
-    {
-      "_id": "66373770d61386f174ef3d0a",
-      "user": "66372d1bde7c834bb15f809b",
-      "comment": "Lorem ipsum sit dolor amet",
-    },
+    "663734b04bebd3fa7b61d0dd",
   ],
+}
+```
+</details>
+
+### Comments
+| **name**     | **type**      |
+| ------------- | ------------- |
+| `_id` | `ObjectId` |
+| `__v` | `Number` |
+| `sender` | `ObjectId(Users)` |
+| `thread` | `ObjectId(Threads)` |
+| `content` | `String` |
+
+<details open>
+<summary> BSON example </summary>
+
+```JSON
+{
+  "_id": "663734b04bebd3fa7b61d0dd",
+  "__v": 0,
+  "sender": "66372c69cc86e6b1c94167a7",
+  "thread": "66372c69cc86e6b1c94167a7",
+  "content": "Lorem ipsum sit dolor amet...",
 }
 ```
 </details>
