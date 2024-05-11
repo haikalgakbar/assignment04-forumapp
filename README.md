@@ -173,7 +173,7 @@
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
 | [Create thread](#create-thread) | `POST` | `/thread` |
-| Create reply | `POST` | `/thread/:id` |
+| [Create reply](#create-reply) | `POST` | `/thread/:id` |
 ### Create thread
 <details open>
 <summary> Request Body </summary>
@@ -215,8 +215,7 @@
 
 ```JSON
 {
-  "user": "ObjectId(User)" (required),
-  "comment": "String" (required),
+  "content": "String" (required),
 }
 ```
 </details>
@@ -226,8 +225,7 @@
 
 ```JSON
 {
-  "user": "66372ee9ddc309fdfffa1666",
-  "comment": "Lorem ipsum sit dolor amet...",
+  "content": "Lorem ipsum sit dolor amet...",
 }
 ```
 </details>

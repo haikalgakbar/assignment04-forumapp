@@ -1,5 +1,4 @@
 const bycrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Session = require("../models/session");
 
@@ -65,13 +64,13 @@ async function handleLogin(req, res) {
 
 async function handleLogout(req, res) {
   try {
-    if (!req.cookies.session)
-      return res.status(400).send({ message: "Session invalid." });
-
     await Session.findOneAndDelete(req.cookies.session);
 
     return res
-      .clearCookie("session", { path: "/" })
+      .clearCookie("session", {
+        path: "/",
+        domain: "localhost",
+      })
       .status(201)
       .json({ message: "Logout success." });
   } catch (err) {

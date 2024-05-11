@@ -21,6 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/", checkForSession);
+app.use("/auth/logout", checkForSession);
 
 app.use(authRouter);
 app.use(userRouter);
