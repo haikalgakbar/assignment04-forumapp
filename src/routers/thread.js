@@ -3,8 +3,8 @@ const threadRouter = express();
 const threadController = require("../controllers/thread.js");
 
 threadRouter.get("/api/threads", threadController.handleGetThreads);
-
 threadRouter.post("/api/threads", threadController.handleCreateThread);
+threadRouter.post("/api/:id/comments", threadController.handleCreateComment);
 
 // threadRouter.post("/thread/:id", async (req, res) => {
 //   const id = req.params.id;

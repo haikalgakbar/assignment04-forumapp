@@ -4,32 +4,24 @@ const User = require("../models/user");
 
 async function handleGetAllUser(_, res) {
   try {
-    const users = await User.find();
-
-    // console.log(users[0].bookmarks);
-    res.status(200).send(users);
+    res.status(200).send(await User.find());
   } catch (err) {
     res.status(500).send({ message: err });
   }
 }
 
 async function handleGetOneUser(req, res) {
-  console.log(req.params.id);
   try {
     const id = req.params.id;
-    // const User = mongoose.model("user_forum");
-    // const users = await User.find().populate("bookmarks").exec();
-    const user = await User.findById(id);
-    // .populate("bookmarks")
-    // .exec((err, user) => {
-    //   if (err) {
-    //     console.error("Error fetching user: ", err);
-    //     return;
-    //   }
-    //   console.log("User: ", user);
-    // });
 
-    // user.populated("bookmarks");
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(400).send({ message: "Invalid id" });
+
+    if (!id) return res.status(400).send({ message: "User id is required" });
+
+    const user = await User.findById(id);
+
+    if (!user) return res.status(404).send({ message: "User not found" });
 
     res.status(200).send(user);
   } catch (err) {
