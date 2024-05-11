@@ -108,8 +108,8 @@
 
 | **Name** | **Value** | |
 | ------------- | ------------- | ------------- |
-| Email | `String` | `required` |
-| Password | `String` | `required` |
+| email | `String` | `required` |
+| password | `String` | `required` |
 | user_name | `String` | `required` |
 | display_name | `String` | `required` |
 </details>
@@ -143,8 +143,8 @@
 
 | **Name** | **Value** | |
 | ------------- | ------------- | ------------- |
-| Email | `String` | `required` |
-| Password | `String` | `required` |
+| email | `String` | `required` |
+| password | `String` | `required` |
 </details>
 
 <details open>
@@ -178,13 +178,11 @@
 <details open>
 <summary> Request Body </summary>
 
-```JSON
-{
-  "title": "String" (required),
-  "content": "String" (required),
-  "img": "String",
-}
-```
+| **Name** | **Value** | |
+| ------------- | ------------- | ------------- |
+| title | `String` | `required` |
+| content | `String` | `required` |
+| img | `String` |  |
 </details>
 
 <details open>
@@ -213,11 +211,9 @@
 <details open>
 <summary> Request Body </summary>
 
-```JSON
-{
-  "content": "String" (required),
-}
-```
+| **Name** | **Value** | |
+| ------------- | ------------- | ------------- |
+| content | `String` | `required` |
 </details>
 
 <details open>
@@ -251,15 +247,13 @@
 <details open>
 <summary> Request Body </summary>
 
-```JSON
-{
-  "email": "String",
-  "password": "String",
-  "user_name": "String",
-  "display_name": "String",
-  "avatar_url": "String",
-}
-```
+| **Name** | **Value** | |
+| ------------- | ------------- | ------------- |
+| email | `String` | |
+| password | `String` | |
+| user_name | `String` | |
+| display_name | `String` | |
+| avatar_url | `String` | |
 </details>
 
 <details open>
@@ -290,11 +284,9 @@
 <details open>
 <summary> Request Body </summary>
 
-```JSON
-{
-  "thread": "ObjectId(Thread)" (required),
-}
-```
+| **Name** | **Value** | |
+| ------------- | ------------- | ------------- |
+| thread | `ObjectId(Thread)` | `required` |
 </details>
 
 <details open>
@@ -321,11 +313,9 @@
 <details open>
 <summary> Request Body </summary>
 
-```JSON
-{
-  "thread": "ObjectId(Thread)" (required),
-}
-```
+| **Name** | **Value** | |
+| ------------- | ------------- | ------------- |
+| thread | `ObjectId(Thread)` | `required` |
 </details>
 
 <details open>
