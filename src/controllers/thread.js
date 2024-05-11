@@ -1,7 +1,7 @@
 const Thread = require("../models/thread");
 const Session = require("../models/session");
 const Comment = require("../models/comment");
-const { default: mongoose } = require("mongoose");
+const { isString, isValidObjectId } = require("./util");
 
 async function handleGetThreads(_, res) {
   try {
@@ -41,9 +41,9 @@ async function handleGetThreads(_, res) {
         },
       ]);
 
-    res.status(200).json(threads);
+    return res.status(200).json(threads);
   } catch (err) {
-    res.status(500).json({ message: err.stack });
+    return res.status(500).json({ message: err.message });
   }
 }
 
@@ -52,15 +52,13 @@ async function handleCreateThread(req, res) {
     const { title, content } = req.body;
 
     if (!title || !content)
-      return res.status(400).send({ message: "Invalid request." });
+      return res.status(400).json({ message: "Invalid request." });
 
-    if (typeof title !== "string" || typeof content !== "string")
-      return res.status(400).send({ message: "Data must be string." });
+    if (!isString(title) || !isString(content))
+      return res.status(400).json({ message: "Data must be string." });
 
     const img =
-      typeof req.body.img === "string" && req.body.img.length > 0
-        ? req.body.img
-        : "";
+      isString(req.body.img) && req.body.img.length > 0 ? req.body.img : "";
 
     const { user: sender } = await Session.findById(req.cookies.session);
 
@@ -71,27 +69,24 @@ async function handleCreateThread(req, res) {
       img: img,
     }).save();
 
-    res.status(201).send("Add new thread success.");
+    res.status(201).json("Add new thread success.");
   } catch (err) {
-    res.status(500).send({ message: err });
+    res.status(500).json({ message: err.message });
   }
 }
 
 async function handleCreateComment(req, res) {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-      return res.status(400).send({ message: "Invalid thread id." });
+    if (!isValidObjectId(req.params.id))
+      return res.status(400).json({ message: "Invalid thread id." });
 
     if (!(await Thread.findById(req.params.id)))
-      return res.status(404).send({ message: "Thread not found." });
-
-    if (Object.keys(req.body).length === 0)
-      return res.status(400).send({ message: "Invalid request." });
+      return res.status(404).json({ message: "Thread not found." });
 
     const { content } = req.body;
 
-    if (typeof content !== "string")
-      return res.status(400).send({ message: "Data must be string." });
+    if (!isString(content))
+      return res.status(400).json({ message: "Data must be string." });
 
     const { user: sender } = await Session.findById(req.cookies.session);
 
@@ -108,9 +103,7 @@ async function handleCreateComment(req, res) {
 
     return res.status(201).json({ message: "Add new comment success." });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Internal server error.", detail: err.stack });
+    res.status(500).json({ message: err.message });
   }
 }
 

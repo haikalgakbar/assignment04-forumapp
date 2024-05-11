@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const bycrypt = require("bcrypt");
 const User = require("../models/user");
 const Thread = require("../models/thread");
@@ -31,9 +30,9 @@ async function handleGetAllUser(_, res) {
       },
     ]);
 
-    res.status(200).send(users);
+    res.status(200).json(users);
   } catch (err) {
-    res.status(500).send({ message: err });
+    res.status(500).json({ message: err.message });
   }
 }
 
@@ -41,12 +40,12 @@ async function handleUpdateUser(req, res) {
   try {
     const { email, password, user_name, display_name, avatar_url } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-      return res.status(400).send({ message: "Invalid id" });
+    if (!isValidObjectId(req.params.id))
+      return res.status(400).json({ message: "Invalid id" });
 
     const user = await User.findById(req.params.id);
 
-    if (!user) return res.status(404).send({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
     if (email) user.email = email;
     if (password) user.password = await bycrypt.hash(password, 12);
@@ -58,7 +57,7 @@ async function handleUpdateUser(req, res) {
 
     res.status(201).json({ message: "User updated successfully." });
   } catch (err) {
-    res.status(500).send({ message: err });
+    res.status(500).json({ message: err.message });
   }
 }
 
@@ -70,16 +69,16 @@ async function handleAddBookmark(req, res) {
       return res.status(400).json({ message: "Body should contain thread." });
 
     if (!isString(thread))
-      return res.status(400).send({ message: "Body must be string." });
+      return res.status(400).json({ message: "Body must be string." });
 
     if (!isValidObjectId(req.params.id) || !isValidObjectId(req.body.thread))
-      return res.status(400).send({ message: "Invalid id." });
+      return res.status(400).json({ message: "Invalid id." });
 
     if (!(await User.findById(req.params.id)))
-      return res.status(404).send({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
 
     if (!(await Thread.findById({ _id: thread })))
-      return res.status(404).send({ message: "Thread not found" });
+      return res.status(404).json({ message: "Thread not found" });
 
     if (await User.findOne({ _id: req.params.id, bookmarks: thread }))
       return res.status(403).json({ message: "Already bookmarked." });
@@ -93,7 +92,7 @@ async function handleAddBookmark(req, res) {
 
     return res.status(201).json({ message: "Bookmark added." });
   } catch (err) {
-    res.status(500).json({ message: err.stack });
+    res.status(500).json({ message: err.message });
   }
 }
 
@@ -105,16 +104,16 @@ async function handleRemoveBookmark(req, res) {
       return res.status(400).json({ message: "Body should contain thread." });
 
     if (!isString(thread))
-      return res.status(400).send({ message: "Body must be string." });
+      return res.status(400).json({ message: "Body must be string." });
 
     if (!isValidObjectId(req.params.id) || !isValidObjectId(req.body.thread))
-      return res.status(400).send({ message: "Invalid id." });
+      return res.status(400).json({ message: "Invalid id." });
 
     if (!(await User.findById(req.params.id)))
-      return res.status(404).send({ message: "User not found." });
+      return res.status(404).json({ message: "User not found." });
 
     if (!(await Thread.findById({ _id: thread })))
-      return res.status(404).send({ message: "Thread not found." });
+      return res.status(404).json({ message: "Thread not found." });
 
     if (!(await User.findOne({ _id: req.params.id, bookmarks: thread })))
       return res
@@ -130,7 +129,7 @@ async function handleRemoveBookmark(req, res) {
 
     return res.status(201).json({ message: "Bookmark removed." });
   } catch (err) {
-    res.status(500).json({ message: err.stack });
+    res.status(500).json({ message: err.message });
   }
 }
 
