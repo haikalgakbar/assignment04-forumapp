@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bycrypt = require("bcrypt");
 const User = require("../models/user");
 const Thread = require("../models/thread");
+const { isValidObjectId, isString } = require("./util.js");
 
 async function handleGetAllUser(_, res) {
   try {
@@ -57,19 +58,25 @@ async function handleUpdateUser(req, res) {
 
 async function handleAddBookmark(req, res) {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-      return res.status(400).send({ message: "Invalid user id." });
+    const { thread } = req.body;
+
+    if (!thread)
+      return res.status(400).json({ message: "Body should contain thread." });
+
+    if (!isString(thread))
+      return res.status(400).send({ message: "Body must be string." });
+
+    if (!isValidObjectId(req.params.id) || !isValidObjectId(req.body.thread))
+      return res.status(400).send({ message: "Invalid id." });
 
     if (!(await User.findById(req.params.id)))
       return res.status(404).send({ message: "User not found" });
 
-    const { thread } = req.body;
-
-    if (typeof thread !== "string")
-      return res.status(400).send({ message: "Body must be string." });
-
     if (!(await Thread.findById({ _id: thread })))
       return res.status(404).send({ message: "Thread not found" });
+
+    if (await User.findOne({ _id: req.params.id, bookmarks: thread }))
+      return res.status(403).json({ message: "Already bookmarked." });
 
     await User.updateOne(
       { _id: req.params.id },
@@ -84,7 +91,42 @@ async function handleAddBookmark(req, res) {
   }
 }
 
-async function handleRemoveBookmark(req, res) {}
+async function handleRemoveBookmark(req, res) {
+  try {
+    const { thread } = req.body;
+
+    if (!thread)
+      return res.status(400).json({ message: "Body should contain thread." });
+
+    if (!isString(thread))
+      return res.status(400).send({ message: "Body must be string." });
+
+    if (!isValidObjectId(req.params.id) || !isValidObjectId(req.body.thread))
+      return res.status(400).send({ message: "Invalid id." });
+
+    if (!(await User.findById(req.params.id)))
+      return res.status(404).send({ message: "User not found." });
+
+    if (!(await Thread.findById({ _id: thread })))
+      return res.status(404).send({ message: "Thread not found." });
+
+    if (!(await User.findOne({ _id: req.params.id, bookmarks: thread })))
+      return res
+        .status(403)
+        .json({ message: "No saved bookmark with this id." });
+
+    await User.updateOne(
+      { _id: req.params.id },
+      {
+        $pull: { bookmarks: thread },
+      }
+    );
+
+    return res.status(201).json({ message: "Bookmark removed." });
+  } catch (err) {
+    res.status(500).json({ message: err.stack });
+  }
+}
 
 module.exports = {
   handleGetAllUser,

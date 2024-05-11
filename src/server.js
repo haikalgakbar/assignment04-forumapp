@@ -2,6 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
 const mongoose = require("mongoose");
+
 const MONGO_URI = require("./config/db.js");
 
 // Routers
