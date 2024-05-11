@@ -30,60 +30,36 @@ async function handleRegister(req, res) {
       avatar_url,
     }).save();
 
-    res.status(201).json({ message: "Add new user success." });
+    return res.status(201).json({ message: "Add new user success." });
   } catch (err) {
-    res.status(500).send({ message: err });
+    return res.status(500).send({ message: err });
   }
 }
 
 async function handleLogin(req, res) {
-  const { email, password } = req.body;
-
-  if (!email || !password)
-    return res.status(400).send({ message: "Invalid body request." });
-
   try {
+    const { email, password } = req.body;
+
+    if (!email || !password)
+      return res.status(400).send({ message: "Invalid body request." });
+
     const user = await User.findOne({ email });
 
     if (!user)
       return res.status(404).send({ message: "Incorrect email or password." });
 
-    bycrypt.compare(password, user.password, async (err, result) => {
-      if (err) {
-        return res.status(500).send({ message: err });
-      }
-      if (!result) {
-        return res
-          .status(404)
-          .send({ message: "Incorrect email or password." });
-      }
+    if (!(await bycrypt.compare(password, user.password))) {
+      return res.status(404).send({ message: "Incorrect email or password." });
+    }
 
-      const newSession = new Session({
-        user: user._id,
-      });
+    const session = await new Session({ user: user._id }).save();
 
-      const session = await newSession.save();
-
-      res
-        .cookie("session", session._id)
-        .status(200)
-        .send({ message: "Login success." });
-
-      // const payload = {
-      //   id: user._id,
-      //   email: user.email,
-      //   user_name: user.user_name,
-      // };
-
-      // const token = jwt.sign(payload, process.env.JWT_SECRET);
-
-      // res
-      //   .cookie("token", token)
-      //   .status(200)
-      //   .send({ message: "Login success." });
-    });
+    return res
+      .cookie("session", session._id)
+      .status(200)
+      .send({ message: "Login success." });
   } catch (err) {
-    res.status(500).send({ message: err });
+    return res.status(500).send({ message: err });
   }
 }
 
@@ -94,12 +70,12 @@ async function handleLogout(req, res) {
 
     await Session.findOneAndDelete(req.cookies.session);
 
-    res
+    return res
       .clearCookie("session", { path: "/" })
       .status(201)
       .json({ message: "Logout success." });
   } catch (err) {
-    res.status(500).send({ message: err });
+    return res.status(500).send({ message: err });
   }
 }
 
