@@ -6,26 +6,32 @@ const { isValidObjectId, isString } = require("./util.js");
 
 async function handleGetAllUser(_, res) {
   try {
-    res.status(200).send(await User.find());
-  } catch (err) {
-    res.status(500).send({ message: err });
-  }
-}
+    const users = await User.find().populate([
+      {
+        path: "bookmarks",
+        transform: (thread) => {
+          return {
+            _id: thread._id,
+            sender: thread.sender,
+            title: thread.title,
+            content: thread.content,
+          };
+        },
+        populate: {
+          path: "sender",
+          transform: (sender) => {
+            return {
+              _id: sender._id,
+              user_name: sender.user_name,
+              display_name: sender.display_name,
+              avatar_url: sender.avatar_url,
+            };
+          },
+        },
+      },
+    ]);
 
-async function handleGetOneUser(req, res) {
-  try {
-    const id = req.params.id;
-
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(400).send({ message: "Invalid id" });
-
-    if (!id) return res.status(400).send({ message: "User id is required" });
-
-    const user = await User.findById(id);
-
-    if (!user) return res.status(404).send({ message: "User not found" });
-
-    res.status(200).send(user);
+    res.status(200).send(users);
   } catch (err) {
     res.status(500).send({ message: err });
   }
@@ -130,7 +136,6 @@ async function handleRemoveBookmark(req, res) {
 
 module.exports = {
   handleGetAllUser,
-  handleGetOneUser,
   handleUpdateUser,
   handleAddBookmark,
   handleRemoveBookmark,

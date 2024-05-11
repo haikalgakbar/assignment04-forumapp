@@ -347,3 +347,96 @@
 | `Error in client` | `400` | `Invalid user id.` / `User not found.` / `Invalid thread id.` / `Thread not found`|
 | `Error in server` | `500` | `Error from server.` |
 </details>
+
+
+# Other method
+
+| **Name** | **Method** | **Endpoint** |
+| ------------- | ------------- | ------------- |
+| [Get all threads](#get-all-threads) | `GET` | `/api/threads` |
+| [Get all users](#get-all-users) | `GET` | `/api/users`|
+
+### Get all threads
+<details open>
+<summary> Example result </summary>
+
+```JSON
+[
+  {
+    "_id": "663efe6ebacf7217e95a3221",
+    "sender": {
+      "_id": "663dd5950f58423d8b9ce6a6",
+      "email": "skibidi@mail.com",
+      "user_name": "change password to 12345",
+      "display_name": "test",
+      "avatar_url": ""
+    },
+    "title": "Test Title",
+    "content": "Test content",
+    "img": "",
+    "comments": [
+      {
+        "_id": "663f17756b0c7ed28245e02b",
+        "sender": {
+          "user_name": "change password to 12345",
+          "display_name": "test",
+          "avatar_url": ""
+        },
+        "content": "test comment"
+      }
+    ],
+    "__v": 0
+  }
+]
+```
+</details>
+
+<details open>
+<summary> Response </summary>
+
+| **Type** | **Status Code** | **Message** |
+| ------------- | ------------- | ------------- |
+| `Success` | `201` |  |
+| `Error in server` | `500` | `Error from server.` |
+</details>
+
+### Get all users
+<details open>
+<summary> Example result </summary>
+
+```JSON
+[
+  {
+    "_id": "6639a3d06f5ad817adcd0e2c",
+    "email": "haikal@mail.com",
+    "password": "$2b$12$UY6RrT5VbjdwpQkrBmmb7.A7OTsbjo1zvKU3FVMoJqtchKGelD8FS",
+    "user_name": "haikalgakbar",
+    "display_name": "haikalgakbar",
+    "avatar_url": "",
+    "bookmarks": [
+      {
+        "_id": "663efe6ebacf7217e95a3221",
+        "sender": {
+          "_id": "663dd5950f58423d8b9ce6a6",
+          "user_name": "change password to 12345",
+          "display_name": "test",
+          "avatar_url": ""
+        },
+        "title": "Test Title",
+        "content": "Test content"
+      }
+    ],
+    "__v": 0
+  }
+]
+```
+</details>
+
+<details open>
+<summary> Response </summary>
+
+| **Type** | **Status Code** | **Message** |
+| ------------- | ------------- | ------------- |
+| `Success` | `201` |  |
+| `Error in server` | `500` | `Error from server.` |
+</details>
