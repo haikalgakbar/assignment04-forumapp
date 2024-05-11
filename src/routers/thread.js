@@ -1,43 +1,10 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const threadRouter = express();
 const threadController = require("../controllers/thread.js");
-const Session = require("../models/session.js");
-// const { User, Thread } = require("../models/forum.js");
 
 threadRouter.get("/api/threads", threadController.handleGetThreads);
 
-// threadRouter.post("/threads", async (req, res) => {
-//   const { sender, title, content } = req.body;
-//   const img = req.body.img ?? "";
-
-//   try {
-//     if (!mongoose.Types.ObjectId.isValid(sender))
-//       return res.status(400).send({ message: "Invalid sender." });
-
-//     if (!(await User.findById(sender)))
-//       return res.status(404).send({ message: "User not found." });
-
-//     if (!title || !content)
-//       return res
-//         .status(400)
-//         .send({ message: "Must include title or content." });
-
-//     if (typeof title !== "string" || typeof content !== "string")
-//       return res.status(400).send({ message: "Data must be string." });
-
-//     await new Thread({
-//       sender: sender,
-//       title: title,
-//       content: content,
-//       img: img,
-//     }).save();
-
-//     res.status(201).send("Add new thread success.");
-//   } catch (err) {
-//     res.status(500).send({ message: err });
-//   }
-// });
+threadRouter.post("/api/threads", threadController.handleCreateThread);
 
 // threadRouter.post("/thread/:id", async (req, res) => {
 //   const id = req.params.id;

@@ -19,6 +19,7 @@ const threadSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "forum_comment",
+      // ref: mongoose.model("forum_comment"),
     },
   ],
 });

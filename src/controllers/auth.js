@@ -87,4 +87,20 @@ async function handleLogin(req, res) {
   }
 }
 
-module.exports = { handleRegister, handleLogin };
+async function handleLogout(req, res) {
+  try {
+    if (!req.cookies.session)
+      return res.status(400).send({ message: "Session invalid." });
+
+    await Session.findOneAndDelete(req.cookies.session);
+
+    res
+      .clearCookie("session", { path: "/" })
+      .status(201)
+      .json({ message: "Logout success." });
+  } catch (err) {
+    res.status(500).send({ message: err });
+  }
+}
+
+module.exports = { handleRegister, handleLogin, handleLogout };

@@ -1,20 +1,10 @@
 const express = require("express");
-const router_user = express();
-// const { User, Thread, Comment } = require("../models/forum.js");
-const { default: mongoose } = require("mongoose");
+const userRouter = express();
+const userController = require("../controllers/user.js");
 
-// router_user.get("/users", async (_, res) => {
-//   // try {
-//   //   const users = await User.find();
-//   //   res.status(200).send(users);
-//   // } catch (err) {
-//   //   res.status(500).send({ message: err });
-//   // }
-
-//   // const users = await User.find().populate("bookmarks").exec();
-//   const users = await User.find().populate("bookmarks");
-//   res.status(200).send(users);
-// });
+userRouter.get("/api/users", userController.handleGetAllUser);
+userRouter.get("/api/users/:id", userController.handleGetOneUser);
+userRouter.patch("/api/users/:id", userController.handleUpdateUser);
 
 // router_user.get("/user/:id", async (req, res) => {
 //   try {
@@ -115,4 +105,4 @@ const { default: mongoose } = require("mongoose");
 //   }
 // });
 
-module.exports = router_user;
+module.exports = userRouter;

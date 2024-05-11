@@ -6,8 +6,8 @@ const MONGO_URI = require("./config/db.js");
 
 // Routers
 const authRouter = require("./routers/auth.js");
-const userRouter = require("./routers/users.js");
-const threadRouter = require("./routers/threads.js");
+const userRouter = require("./routers/user.js");
+const threadRouter = require("./routers/thread.js");
 
 // Middlewares
 const checkForSession = require("./middlewares/checkForSession.js");

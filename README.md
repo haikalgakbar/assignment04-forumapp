@@ -100,7 +100,7 @@
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
 | [Register](#register) | `POST` | `/auth/register` |
-| [login](#login) | `POST` | `/auth/login` |
+| [Login](#login) | `POST` | `/auth/login` |
 
 ### Register
 <details open>
@@ -172,7 +172,7 @@
 ### Thread
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
-| Create thread | `POST` | `/thread` |
+| [Create thread](#create-thread) | `POST` | `/thread` |
 | Create reply | `POST` | `/thread/:id` |
 ### Create thread
 <details open>
@@ -180,9 +180,9 @@
 
 ```JSON
 {
-  "sender": "ObjectId(User)" (required),
   "title": "String" (required),
   "content": "String" (required),
+  "img": "String",
 }
 ```
 </details>
@@ -192,9 +192,9 @@
 
 ```JSON
 {
-  "sender": "66372ee9ddc309fdfffa1666",
   "title": "Ngeri! Lorem Ipsum Sit Dolor Amet",
   "content": "Lorem ipsum sit dolor amet...",
+  "img": "cdn.example.com/thread/img/1.jpg",
 }
 ```
 </details>
