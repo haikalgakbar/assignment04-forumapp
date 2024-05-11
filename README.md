@@ -339,7 +339,7 @@
 </details>
 
 
-# Other method
+# Other Endpoint
 
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
