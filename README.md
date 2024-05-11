@@ -172,8 +172,8 @@
 ### Thread
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
-| [Create thread](#create-thread) | `POST` | `/thread` |
-| [Create reply](#create-reply) | `POST` | `/thread/:id` |
+| [Create thread](#create-thread) | `POST` | `/api/threads` |
+| [Create reply](#create-reply) | `POST` | `/api/threads/:id` |
 ### Create thread
 <details open>
 <summary> Request Body </summary>
@@ -240,9 +240,9 @@
 ### User
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
-| [Update profile](#update-profile) | `PATCH` | `/user/:id` |
-| [Bookmark thread](#bookmark-thread) | `POST` | `/user/:id/bookmarks` |
-| [Remove bookmark](#remove-bookmark) | `DELETE` | `/user/:id/bookmarks` |
+| [Update profile](#update-profile) | `PATCH` | `/users/:id` |
+| [Bookmark thread](#bookmark-thread) | `POST` | `/users/:id/bookmarks` |
+| [Remove bookmark](#remove-bookmark) | `DELETE` | `/users/:id/bookmarks` |
 ### Update profile
 <details open>
 <summary> Request Body </summary>
