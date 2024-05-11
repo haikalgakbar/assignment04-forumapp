@@ -24,7 +24,7 @@ async function handleGetThreads(_, res) {
           transform: (comment) => {
             return {
               _id: comment._id,
-              sender: comment.sender, // How to populate this
+              sender: comment.sender,
               content: comment.content,
             };
           },
@@ -41,9 +41,9 @@ async function handleGetThreads(_, res) {
         },
       ]);
 
-    res.status(200).send(threads);
+    res.status(200).json(threads);
   } catch (err) {
-    res.status(500).send({ message: err.stack });
+    res.status(500).json({ message: err.stack });
   }
 }
 

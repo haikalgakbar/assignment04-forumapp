@@ -244,7 +244,7 @@
 ### User
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
-| Update profile | `PATCH` | `/user/:id` |
+| [Update profile](#update-profile) | `PATCH` | `/user/:id` |
 | Bookmark thread | `PATCH` | `/user/:id/bookmarks` |
 | Remove bookmark | `PATCH` | `/user/:id/bookmarks` |
 ### Update profile

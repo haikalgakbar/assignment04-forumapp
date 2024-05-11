@@ -11,6 +11,7 @@ const threadRouter = require("./routers/thread.js");
 
 // Middlewares
 const checkForSession = require("./middlewares/checkForSession.js");
+const checkForEmptyBody = require("./middlewares/checkForEmptyBody.js");
 
 mongoose.connect(MONGO_URI);
 
@@ -20,6 +21,7 @@ app.listen(process.env.PORT);
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/", checkForEmptyBody);
 app.use("/api/", checkForSession);
 app.use("/auth/logout", checkForSession);
 
