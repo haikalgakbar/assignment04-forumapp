@@ -28,10 +28,10 @@
 
 ```JSON
 {
-  "_id": "66372c69cc86e6b1c94167a7",
+  "_id": "6639a3d06f5ad817adcd0e2c",
   "__v": 0,
   "email": "haikal@mail.com",
-  "password": "66372c69cc86e6b1c94167a7",
+  "password": "$2b$12$UY6RrT5VbjdwpQkrBmmb7.A7OTsbjo1zvKU3FVMoJqtchKGelD8FS",
   "user_name": "haikalgakbar",
   "display_name": "haikalgakbar",
   "avatar_url": "cdn.example.com/img/1.jpg",
@@ -245,8 +245,8 @@
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
 | [Update profile](#update-profile) | `PATCH` | `/user/:id` |
-| Bookmark thread | `PATCH` | `/user/:id/bookmarks` |
-| Remove bookmark | `PATCH` | `/user/:id/bookmarks` |
+| [Bookmark thread](#bookmark-thread) | `POST` | `/user/:id/bookmarks` |
+| [Remove bookmark](#remove-bookmark) | `DELETE` | `/user/:id/bookmarks` |
 ### Update profile
 <details open>
 <summary> Request Body </summary>
@@ -292,7 +292,6 @@
 
 ```JSON
 {
-  "type": "String" (required),
   "thread": "ObjectId(Thread)" (required),
 }
 ```
@@ -303,7 +302,6 @@
 
 ```JSON
 {
-  "type": "add",
   "thread": "66372ee9ddc309fdfffa1666",
 }
 ```
@@ -325,7 +323,6 @@
 
 ```JSON
 {
-  "type": "String" (required),
   "thread": "ObjectId(Thread)" (required),
 }
 ```
@@ -336,7 +333,6 @@
 
 ```JSON
 {
-  "type": "remove",
   "thread": "66372ee9ddc309fdfffa1666",
 }
 ```

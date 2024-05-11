@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/", checkForEmptyBody);
-app.use("/api/", checkForSession);
+app.use("/api", checkForSession);
 app.use("/auth/logout", checkForSession);
 
 app.use(authRouter);
