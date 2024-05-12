@@ -101,6 +101,7 @@
 | ------------- | ------------- | ------------- |
 | [Register](#register) | `POST` | `/auth/register` |
 | [Login](#login) | `POST` | `/auth/login` |
+| [Logout](#logout) | `GET` | `/auth/logout` |
 
 ### Register
 <details open>
@@ -165,6 +166,18 @@
 | ------------- | ------------- | ------------- |
 | `Success` | `201` | `Login success.` |
 | `Error in client` | `404` | `Incorrect email or password` |
+| `Error in server` | `500` | `Error from server.` |
+</details>
+
+### Logout
+
+<details open>
+<summary> Response </summary>
+
+| **Type** | **Status Code** | **Message** |
+| ------------- | ------------- | ------------- |
+| `Success` | `201` | `Logout success.` |
+| `Error in client` | `404` | `Unauthorized` |
 | `Error in server` | `500` | `Error from server.` |
 </details>
 
